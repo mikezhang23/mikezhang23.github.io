@@ -1,11 +1,11 @@
 ---
 layout: post
 title: Improving Marketplace Liquidity at Peerspace Using ML
-image: "/posts/marketplace-liquidity-img.png"
+image: "/posts/marketplace-liquidity-title-img.png"
 tags: [Marketplace, Machine Learning, Classification, Python, Two-Sided Markets]
 ---
 
-Peerspace operates a two-sided marketplace connecting hosts with unique spaces to guests seeking venues for events, productions, and meetings. The challenge was identifying which new listings would achieve high booking rates to optimize marketplace liquidity. Let's use ML to predict listing success!
+Our client, Peerspace, operates a two-sided marketplace connecting hosts with unique spaces to guests seeking venues for events, productions, and meetings. The challenge was identifying which new listings would achieve high booking rates to optimize marketplace liquidity. Let's use ML to predict listing success!
 
 # Table of contents
 
@@ -107,13 +107,13 @@ import pickle
 from datetime import datetime, timedelta
 
 # import required data tables
-listings = ...
-hosts = ...
-bookings = ...
-pricing = ...
-amenities = ...
-photos = ...
-market_data = ...
+listings = pd.read_csv("data/listings.csv")
+hosts = pd.read_csv("data/hosts.csv")
+bookings = pd.read_csv("data/bookings.csv")
+pricing = pd.read_csv("data/pricing.csv")
+amenities = pd.read_csv("data/amenities.csv")
+photos = pd.read_csv("data/photos.csv")
+market_data = pd.read_csv("data/market_data.csv")
 
 # calculate liquidity label from bookings data
 booking_counts = bookings.groupby("listing_id").agg({
@@ -807,8 +807,3 @@ With our model selected (XGBoost), we can now predict liquidity scores for new l
 We need to ensure the data is preprocessed in exactly the same way as our training data.
 
 <br>
-```python
-
-# import required packages
-import pandas as pd
-import pickle
