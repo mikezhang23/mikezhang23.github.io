@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Improving Marketplace Liquidity at Peerspace Using ML
-image: "/posts/marketplace-liquidity-title-img.png"
+image: "/posts/marketplace-liquidity-img.png"
 tags: [Marketplace, Machine Learning, Classification, Python, Two-Sided Markets]
 ---
 
