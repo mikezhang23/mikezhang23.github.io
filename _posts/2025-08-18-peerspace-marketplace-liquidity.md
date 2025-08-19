@@ -7,7 +7,7 @@ tags: [Marketplace Analytics, Machine Learning, SQL, Python, Tableau, Business I
 
 Our analysis of Peerspace's two-sided marketplace revealed critical supply-demand imbalances costing $487K in monthly revenue. Through comprehensive SQL analysis, predictive modeling, and interactive dashboards, we identified targeted interventions that could improve conversion rates by 15-20% within 90 days. Let's dive into how data science can optimize marketplace health!
 
-Please see the Tableau dashboard output for this project here: [Tableau Public Link][https://public.tableau.com/views/Peerspace-Liquidity-Analysis/ExecutiveSummary?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link]
+Please see the Tableau dashboard output for this project here: [Tableau Public Link](https://public.tableau.com/views/Peerspace-Liquidity-Analysis/ExecutiveSummary?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
 
 # Table of contents
 
