@@ -7,6 +7,8 @@ tags: [Marketplace Analytics, Machine Learning, SQL, Python, Tableau, Business I
 
 Our analysis of Peerspace's two-sided marketplace revealed critical supply-demand imbalances costing $487K in monthly revenue. Through comprehensive SQL analysis, predictive modeling, and interactive dashboards, we identified targeted interventions that could improve conversion rates by 15-20% within 90 days. Let's dive into how data science can optimize marketplace health!
 
+Note that we generated synthetic data for this project to show how the project can analyze and make recommendations on how to improve Peerspace's marketspace liquidity given actual data.
+
 Please see the Tableau dashboard output for this project here: [Tableau Public Link](https://public.tableau.com/views/Peerspace-Liquidity-Analysis/ExecutiveSummary?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
 
 # Table of contents
@@ -59,8 +61,6 @@ We approached this challenge through a comprehensive three-phase analysis:
 
 **Phase 3: Visualization & Recommendations (Tableau)**
 * Designed executive dashboard with parameter-driven interactivity
-* Created metro-specific deep dive views
-* Built predictive analytics dashboard
 * Developed prioritized action center
 
 <br>
@@ -116,7 +116,7 @@ ___
 
 # Data Overview  <a name="data-overview"></a>
 
-We analyzed 12 months of marketplace data across six major metros, working with four primary datasets that we integrated for comprehensive analysis.
+We analyzed 12 months of synthetic marketplace data across six major metros, working with four primary datasets that we integrated for comprehensive analysis.
 
 ```python
 # Import required packages
@@ -233,7 +233,7 @@ FROM unfulfilled_searches
 GROUP BY metro_area;
 ```
 
-This SQL analysis revealed that supply-demand imbalances were highly localized, requiring metro-specific interventions.
+This SQL analysis revealed that supply-demand imbalances were specific to each metro, requiring metro-specific interventions.
 
 ___
 
