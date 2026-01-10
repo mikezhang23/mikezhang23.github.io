@@ -1,0 +1,215 @@
+---
+layout: post
+title: Las Vegas Short-Term Rental Investment Analysis
+image: "/posts/vegas_airbnb.jpg"
+tags: [Python, SQL, APIs, Data Analysis, Web Scraping, Real Estate]
+---
+
+# Las Vegas Short-Term Rental Investment Analysis
+
+## A data-driven approach to identifying profitable Airbnb investment opportunities
+
+---
+
+### Project Overview
+
+As a short-term rental investor, I wanted to answer a simple question: **What type of property should I buy to maximize ROI?**
+
+This project analyzes 17,600+ Airbnb listings, 6.4 million booking records, and 3,000 MLS home sales to identify the best investment opportunities in Las Vegas. I also scraped hotel pricing data to build a competitive analysis for potential guests.
+
+---
+
+### Data Sources
+
+* **Airbnb** - Listings, calendar availability, and pricing (Inside Airbnb)
+* **MLS** - Home sales data by bedroom count
+* **Booking.com API** - Hotel pricing across multiple dates via RapidAPI
+
+---
+
+### Tools & Technologies
+
+| Category | Tools |
+|----------|-------|
+| Languages | Python, SQL |
+| Libraries | pandas, matplotlib, sqlite3, requests |
+| Database | SQLite |
+| APIs | Booking.com (RapidAPI) |
+| Environment | Jupyter Notebook |
+
+---
+
+### The Analysis
+
+#### Step 1: Data Import & Cleaning
+
+Loaded and cleaned multiple data sources, removing outliers and standardizing formats.
+```python
+# Load Airbnb data
+listings = pd.read_csv('listings.csv.gz', compression='gzip')
+calendar = pd.read_csv('calendar.csv.gz', compression='gzip')
+
+# Clean price column (remove $ and convert to float)
+listings['price_clean'] = listings['price'].str.replace('$', '').str.replace(',', '').astype(float)
+
+# Remove outliers (keep $10 - $1000 per night)
+listings_clean = listings[(listings['price_clean'] >= 10) & (listings['price_clean'] <= 1000)]
+```
+
+#### Step 2: Calculate Occupancy & Revenue
+
+Calculated occupancy rates from 6.4 million calendar records and derived annual revenue.
+```python
+# Calculate occupancy rate per listing
+occupancy = calendar.groupby('listing_id')['available'].apply(lambda x: (x == 'f').mean())
+
+# Calculate annual revenue (ADR x Occupancy x 365)
+listings_full['annual_revenue'] = listings_full['price_clean'] * listings_full['occupancy_rate'] * 365
+```
+
+#### Step 3: SQL Analysis
+
+Stored all data in SQLite for complex queries combining Airbnb revenue with MLS home prices.
+```python
+# Create SQLite database
+conn = sqlite3.connect('vegas_airbnb.db')
+listings_full.to_sql('listings', conn, index=False, if_exists='replace')
+mls.to_sql('mls', conn, index=False, if_exists='replace')
+```
+```sql
+-- ROI Analysis combining Airbnb revenue with home prices
+SELECT 
+    a.bedrooms,
+    a.avg_revenue as airbnb_revenue,
+    m.avg_price as home_price,
+    ROUND(((a.avg_revenue - (m.avg_price * 0.06)) / m.avg_price) * 100, 2) as roi_percent
+FROM airbnb_stats a
+JOIN mls_prices m ON a.bedrooms = m.bedrooms
+ORDER BY roi_percent DESC
+```
+
+#### Step 4: Amenity Impact Analysis
+
+Identified which amenities drive the highest revenue lift.
+```python
+# Check if listing has high-value amenity
+high_value = ['pool', 'hot tub', 'sauna', 'theater', 'arcade', 'pool table']
+
+for amenity in high_value:
+    listings_full[amenity] = listings_full['amenities_list'].apply(
+        lambda x: any(amenity.lower() in a.lower() for a in x)
+    )
+```
+
+#### Step 5: Hotel Price Scraping
+
+Scraped hotel pricing via Booking.com API across 8 date ranges (full weeks + weekends over 3 months).
+```python
+# Fetch hotel prices from Booking.com API
+url = "https://booking-com15.p.rapidapi.com/api/v1/hotels/searchHotels"
+params = {
+    "dest_id": "1704",  # Las Vegas Strip
+    "search_type": "district",
+    "arrival_date": checkin,
+    "departure_date": checkout,
+    "adults": 2,
+    "currency_code": "USD"
+}
+
+response = requests.get(url, headers=headers, params=params)
+hotel_data = response.json()
+```
+
+---
+
+### Key Findings
+
+#### 🏆 Top Investment Opportunities (by ROI)
+
+| Bedrooms | Home Price | Revenue (90th %) | Net Income | ROI |
+|----------|------------|------------------|------------|-----|
+| 2 | $361K | $87K | $65K | 18.0% |
+| 6 | $667K | $148K | $108K | 16.2% |
+| 5 | $525K | $108K | $76K | 14.6% |
+
+#### 🏠 Amenities That Drive Revenue
+
+| Amenity | Revenue Lift |
+|---------|--------------|
+| Pool | +93% |
+| Sauna | +81% |
+| Hot Tub | +68% |
+| Pool Table | +66% |
+| Arcade | +60% |
+
+#### 🏨 Hotel vs Airbnb Comparison
+
+| Tier | Hotel | Airbnb | Savings |
+|------|-------|--------|---------|
+| Budget | $169 (3-star) | $163 | $6 |
+| Mid-Range | $269 (4-star) | $249 | $20 |
+| Premium | $553 (5-star) | $389 | $164 |
+
+**Key insight:** Airbnb offers 10-30% savings vs hotels, plus full kitchens and more space.
+
+---
+
+### Visualizations
+
+![ROI by Bedroom Count](/img/posts/roi_by_bedroom.png "ROI by Bedroom Count")
+
+![Hotel vs Airbnb Comparison](/img/posts/hotel_vs_airbnb.png "Hotel vs Airbnb Comparison")
+
+![Top Amenities by Revenue Impact](/img/posts/amenity_impact.png "Top Amenities by Revenue Impact")
+
+---
+
+### Investment Recommendations
+
+**Best Bet: 2-Bedroom in Unincorporated Areas (Las Vegas Strip)**
+* Home Price: ~$361K
+* Expected Revenue: $50K - $87K/year
+* ROI: 7.9% - 18.0%
+* Why: Best ROI, most liquid market, strong data (1,626 listings)
+
+**Must-Have Amenities:**
+1. Pool (+93% revenue)
+2. Hot tub (+68% revenue)
+3. Pool table (+66% revenue)
+
+---
+
+### Database Schema
+
+Final SQLite database contains 7 tables for future analysis:
+
+* **listings** - 11,833 cleaned Airbnb listings
+* **mls** - 2,990 home sales
+* **neighbourhoods** - 7 areas
+* **top_performers** - Revenue by bedroom (75th & 90th percentile)
+* **amenity_impact** - 15 amenity metrics
+* **hotels** - 160 hotel rate records
+* **hotel_vs_airbnb** - Comparison summary
+
+---
+
+### What I Learned
+
+* Building end-to-end data pipelines from raw files to actionable insights
+* Combining Python and SQL for efficient data analysis
+* Working with APIs and handling rate limits
+* Translating data into business recommendations
+* The importance of using percentiles vs averages when outliers exist
+
+---
+
+### Future Improvements
+
+* Add seasonal analysis (revenue by month)
+* Include expense breakdown (cleaning, management, utilities)
+* Expand hotel data with more properties
+* Build interactive dashboard with Streamlit
+
+---
+
+[View the full code on GitHub](https://github.com/yourusername/vegas-airbnb-analysis)
