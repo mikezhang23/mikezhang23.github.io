@@ -777,26 +777,28 @@ Based on our comprehensive analysis, here are prioritized investment recommendat
 
 ### Best Bets (High ROI + Reliable Data)
 
-**🥇 1st Choice: 2-Bedroom in Unincorporated Areas (Las Vegas Strip)**
-* Home Price: ~$361K
-* Expected Revenue: $50K - $87K/year (75th-90th percentile)
-* Net Income: $29K - $65K/year
-* ROI: 7.9% - 18.0%
-* Why: Best ROI, most liquid market, strong data (1,626 Airbnb listings, 314 home sales)
-
-**🥈 2nd Choice: 5-Bedroom in Unincorporated Areas**
+** 1st Choice: 5-Bedroom in Unincorporated Areas**
 * Home Price: ~$525K
 * Expected Revenue: $65K - $108K/year
 * Net Income: $34K - $76K/year
 * ROI: 6.4% - 14.6%
 * Why: Higher cash flow, good for groups/events, solid data (458 listings, 245 home sales)
 
-**🥉 3rd Choice: 6-Bedroom in Unincorporated Areas**
+** 2nd Choice: 6-Bedroom in Unincorporated Areas**
 * Home Price: ~$667K
 * Expected Revenue: $92K - $148K/year
 * Net Income: $52K - $108K/year
 * ROI: 7.8% - 16.2%
-* Why: Highest total income, premium market (121 listings, 47 home sales)
+* Why: Highest total income, premium market (121 listings, 47 home sales), not 1st because there is less data here and they are harder to find
+
+** 3rd Choice: 2-Bedroom in Unincorporated Areas (Las Vegas Strip)**
+* Home Price: ~$361K
+* Expected Revenue: $50K - $87K/year (75th-90th percentile)
+* Net Income: $29K - $65K/year
+* ROI: 7.9% - 18.0%
+* Why: Best ROI (but since I am optimizing for income, this is my 3rd choice), most liquid market, strong data (1,626 Airbnb listings, 314 home sales)
+
+
 
 ### Must-Have Amenities (in order of impact)
 
